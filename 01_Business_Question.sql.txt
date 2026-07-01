@@ -1,0 +1,112 @@
+-- ==========================================
+-- BUSINESS QUESTIONS
+-- Project: Netflix Data Analysis
+-- SQL: PostgreSQL
+-- Created by: Aishwarya Chouhan
+-- ==========================================
+
+Q1.How many Movies and how many TV Shows are available on Netflix?
+SELECT 
+ type, 
+ COUNT(*) AS total_titles
+FROM netflix 
+GROUP BY type;
+
+Q2.What content rating do we have the most?
+SELECT 
+  rating,
+  COUNT(*) AS total_titles 
+  FROM netflix GROUP BY rating 
+  ORDER BY total_titles DESC;
+
+Q3.Which countries produce the most content available on Netflix?
+SELECT
+  country,
+  COUNT(*) AS total_titles
+FROM netflix
+WHERE country IS NOT NULL
+GROUP BY country
+ORDER BY total_titles DESC
+LIMIT 10;
+
+Q4.In which release years was the most content produced?
+SELECT
+   release_year,
+   COUNT(*) AS total_year
+FROM netflix
+GROUP BY release_year
+ORDER BY total_year DESC;
+
+Q5.In which release years was the most content produced?
+SELECT
+   listed_in,
+   COUNT(*) AS total_genre
+FROM netflix
+GROUP BY listed_in
+ORDER BY total_genre DESC
+LIMIT 10;
+
+Q6.Which directors have directed the most content on Netflix?
+SELECT
+   director,
+   COUNT(*) AS total_director
+FROM netflix
+WHERE director IS NOT NULL
+GROUP BY director
+ORDER BY total_director DESC
+LIMIT 10;
+
+Q7.What is the newest movie available on Netflix, and what is the oldest?
+SELECT
+    title,
+    release_year
+FROM netflix
+WHERE type = 'Movie'
+ORDER BY release_year DESC
+LIMIT 3;
+
+SELECT
+    title,
+    release_year
+FROM netflix
+WHERE type = 'Movie'
+ORDER BY release_year ASC
+LIMIT 3;
+
+Q8.How many titles were added to Netflix each year?
+SELECT
+   EXTRACT(YEAR FROM TO_DATE(date_added, 'Month DD, YYYY'))
+   AS year_added,
+       COUNT(*) AS total_year
+FROM netflix
+WHERE date_added IS NOT NULL
+GROUP BY year_added
+ORDER BY year_added;
+
+Q9.Which movies are longer than 2 hours?
+SELECT 
+   title,
+   duration
+FROM netflix
+WHERE type = 'Movie'
+AND CAST(REPLACE(duration,'min', '') AS INTEGER) > 120
+ORDER BY CAST(REPLACE(duration,'min', '') AS INTEGER) DESC;
+
+Q10.Which year had the highest number of movie releases?
+SELECT
+    release_year,
+    COUNT(*) AS total_movies
+FROM netflix
+WHERE type = 'Movie'
+GROUP BY release_year
+ORDER BY total_movies DESC;
+
+Q11.Which year had the highest number of movie releases?
+SELECT
+    release_year,
+    COUNT(*) AS total_movies
+FROM netflix
+WHERE type = 'Movie'
+GROUP BY release_year
+ORDER BY total_movies DESC;
+
