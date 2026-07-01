@@ -1,0 +1,59 @@
+-- ==========================================
+-- NETFLIX DATA CLEANING
+-- Project: Netflix Data Analysis
+-- SQL: PostgreSQL
+-- Created by: Aishwarya Chouhan
+-- ==========================================
+
+
+Q1.Check Missing Values in director.
+SELECT COUNT(*) AS missing_director
+FROM netflix
+WHERE director IS NULL;
+
+Q2.Check Missing Values in country.
+SELECT COUNT(*) AS missing_country
+FROM netflix
+WHERE country IS NULL;
+
+Q3.Check Missing Values in date_added.
+SELECT COUNT(*) AS missing_date_added
+FROM netflix
+WHERE date_added IS NULL;
+
+Q4.Check Duplicate Records.
+SELECT
+    show_id,
+    COUNT(*) AS duplicate_count
+FROM netflix
+GROUP BY show_id
+HAVING COUNT(*) > 1;
+
+Q5.Check Blank Values in director.
+SELECT COUNT(*) AS blank_director
+FROM netflix
+WHERE TRIM(director) = '';
+
+Q6.Convert date_added into a Date (Transformation Example).
+SELECT
+    date_added,
+    TO_DATE(date_added, 'Month DD, YYYY') AS converted_date
+FROM netflix
+WHERE date_added IS NOT NULL
+LIMIT 10;
+
+Q7.Remove " min" from Duration (Transformation Example).
+SELECT
+    duration,
+    REPLACE(duration, ' min', '') AS duration_without_text
+FROM netflix
+WHERE type = 'Movie'
+LIMIT 10;
+
+Q8.Convert Duration to Integer.
+SELECT
+    duration,
+    CAST(REPLACE(duration, ' min', '') AS INTEGER) AS duration_minutes
+FROM netflix
+WHERE type = 'Movie'
+LIMIT 10;
