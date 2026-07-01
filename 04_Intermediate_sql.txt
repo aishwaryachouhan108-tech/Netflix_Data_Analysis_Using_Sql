@@ -1,0 +1,85 @@
+-- ==========================================
+-- NETFLIX INTERMEDIATE SQL
+-- Project: Netflix Data Analysis
+-- SQL: PostgreSQL
+-- Created by: Aishwarya Chouhan
+-- ==========================================
+
+Q1.Categorize Netflix content into Old and Recent Content.
+SELECT
+    title,
+    release_year,
+    CASE
+        WHEN release_year >= 2020 THEN 'Recent Content'
+        ELSE 'Old Content'
+    END AS content_category
+FROM netflix
+LIMIT 10;
+
+
+Q2.Categorize content into Classic, Modern and Recent.
+SELECT
+    title,
+    release_year,
+    CASE
+        WHEN release_year < 2000 THEN 'Classic'
+        WHEN release_year BETWEEN 2000 AND 2019 THEN 'Modern'
+        ELSE 'Recent'
+    END AS content_category
+FROM netflix;
+
+
+Q3.Find the shortest and longest movie on Netflix.
+SELECT
+    MIN(CAST(REPLACE(duration, ' min', '') AS INTEGER)) AS shortest_movie,
+    MAX(CAST(REPLACE(duration, ' min', '') AS INTEGER)) AS longest_movie
+FROM netflix
+WHERE type = 'Movie';
+
+
+Q4.Find the average movie duration.
+SELECT
+    AVG(CAST(REPLACE(duration, ' min', '') AS INTEGER)) AS average_duration
+FROM netflix
+WHERE type = 'Movie';
+
+
+Q5.Find movies longer than the average movie duration.
+SELECT
+    title,
+    duration
+FROM netflix
+WHERE type = 'Movie'
+AND CAST(REPLACE(duration, ' min', '') AS INTEGER) >
+(
+    SELECT
+        AVG(CAST(REPLACE(duration, ' min', '') AS INTEGER))
+    FROM netflix
+    WHERE type = 'Movie'
+);
+
+
+Q6.Find movies longer than 150 minutes using a CTE.
+WITH long_movies AS
+(
+    SELECT
+        title,
+        duration
+    FROM netflix
+    WHERE type = 'Movie'
+    AND CAST(REPLACE(duration, ' min', '') AS INTEGER) > 150
+)
+
+SELECT *
+FROM long_movies;
+
+
+Q7.Assign a row number to each movie based on release year.
+SELECT
+    title,
+    release_year,
+    ROW_NUMBER() OVER (ORDER BY release_year DESC) AS row_num
+FROM netflix
+WHERE type = 'Movie'
+LIMIT 10;
+
