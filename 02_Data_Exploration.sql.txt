@@ -1,0 +1,37 @@
+-- ==========================================
+-- DATA EXPLORATION
+-- Project: Netflix Data Analysis
+-- SQL: PostgreSQL
+-- Created by: Aishwarya Chouhan
+-- ==========================================
+
+Q1.Show the dates when Movies and TV shows are added on Netflix.
+SELECT
+   date_added
+FROM netflix
+LIMIT 10;
+
+Q2.View the entire dataset.
+SELECT*FROM Netflix
+
+Q3.View only the director column.
+SELECT director
+FROM netflix
+LIMIT 5;
+
+Q4.Check the date_added formate
+SELECT date_added
+FROM Netflix
+LIMIT 10;
+
+Q5.Check the duration format
+SELECT DISTINCT duration
+FROM Netflix
+LIMIT 10;
+
+Q6.Count Movies vs TV Shows.
+SELECT
+  type,
+COUNT(*)AS total_titles
+FROM Netflix
+GROUP BY type;
